@@ -49,6 +49,8 @@ def exec_command(command: List[str]):
 
 def verify_file(path: pathlib.Path, *, compilers: List[str], tle: float, jobs: int) -> Optional[bool]:
     logger.info('verify: %s', path)
+    
+    tle=300 # (<- 個人的に追加したところ)
 
     language = onlinejudge_verify.languages.list.get(path)
     if language is None:
@@ -117,7 +119,7 @@ def verify_file(path: pathlib.Path, *, compilers: List[str], tle: float, jobs: i
     return True
 
 # tle のオリジナルの設定は 60 sec (1 min)
-def main(paths: List[pathlib.Path], *, marker: onlinejudge_verify.marker.VerificationMarker, timeout: float = math.inf, tle: float = 180, jobs: int = 1) -> VerificationSummary:
+def main(paths: List[pathlib.Path], *, marker: onlinejudge_verify.marker.VerificationMarker, timeout: float = math.inf, tle: float = 300, jobs: int = 1) -> VerificationSummary:
     try:
         import resource  # pylint: disable=import-outside-toplevel
         _, hard = resource.getrlimit(resource.RLIMIT_STACK)
