@@ -116,8 +116,8 @@ def verify_file(path: pathlib.Path, *, compilers: List[str], tle: float, jobs: i
 
     return True
 
-
-def main(paths: List[pathlib.Path], *, marker: onlinejudge_verify.marker.VerificationMarker, timeout: float = math.inf, tle: float = 60, jobs: int = 1) -> VerificationSummary:
+# tle のオリジナルの設定は 60 sec (1 min)
+def main(paths: List[pathlib.Path], *, marker: onlinejudge_verify.marker.VerificationMarker, timeout: float = math.inf, tle: float = 180, jobs: int = 1) -> VerificationSummary:
     try:
         import resource  # pylint: disable=import-outside-toplevel
         _, hard = resource.getrlimit(resource.RLIMIT_STACK)
