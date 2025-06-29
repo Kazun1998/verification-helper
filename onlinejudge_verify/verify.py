@@ -78,7 +78,7 @@ def verify_file(path: pathlib.Path, *, compilers: List[str], tle: float, jobs: i
     directory = pathlib.Path('.verify-helper/cache') / hashlib.md5(url.encode()).hexdigest()
     if not (directory / 'test').exists() or list((directory / 'test').iterdir()) == []:
         directory.mkdir(parents=True, exist_ok=True)
-        exec_command(['sleep', '2'])
+        time.sleep(2)
         command = ['oj', 'download', '--system', '-d', str(directory / 'test'), '--silent', url]
 
         if os.environ.get('DROPBOX_TOKEN'):
@@ -121,9 +121,9 @@ def verify_file(path: pathlib.Path, *, compilers: List[str], tle: float, jobs: i
 # tle のオリジナルの設定は 60 sec (1 min)
 def main(paths: List[pathlib.Path], *, marker: onlinejudge_verify.marker.VerificationMarker, timeout: float = math.inf, tle: float = 300, jobs: int = 1) -> VerificationSummary:
     try:
-        import resource  # pylint: disable=import-outside-toplevel
-        _, hard = resource.getrlimit(resource.RLIMIT_STACK)
-        resource.setrlimit(resource.RLIMIT_STACK, (hard, hard))
+        import resource  # pylint: disable=import-outside-toplevel,import-error
+        _, hard = resource.getrlimit(resource.RLIMIT_STACK)  # type: ignore
+        resource.setrlimit(resource.RLIMIT_STACK, (hard, hard))  # type: ignore
     except Exception:
         logger.warning('failed to increase the stack size')
         print('::warning ::failed to ulimit')
